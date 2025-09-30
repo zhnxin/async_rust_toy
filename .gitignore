@@ -1,0 +1,6 @@
+/target
+**/*.rs.bk
+config.toml
+*.epub
+*.mobi
+.DS_Store
