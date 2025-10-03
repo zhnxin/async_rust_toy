@@ -165,11 +165,16 @@ impl Runtime {
     }
 
     pub fn spawn(&mut self, f: fn()) {
-        let available = self
+        let available = if let Some(thread) = self
             .threads
             .iter_mut()
             .find(|t| t.state == State::Available)
-            .expect("no available thread.");
+        {
+            thread
+        } else {
+            self.threads.push(Thread::new());
+            self.threads.last_mut().expect("failed to create new thread")
+        };
 
         let size = available.stack.len();
 

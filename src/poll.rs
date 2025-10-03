@@ -50,7 +50,7 @@ pub struct Registry {
 
 impl Registry {
     // NB! Mio inverts this, and `source` owns the register implementation
-    pub fn register(&self, source: &TcpStream, token: usize, interests: i32) -> Result<()> {
+    pub fn register<F: AsRawFd>(&self, source: &F, token: usize, interests: i32) -> Result<()> {
         let mut event = ffi::Event {
             events: interests as u32,
             epoll_data: token,
